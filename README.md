@@ -2,12 +2,14 @@
 This is a multi-language library for simulating some practical `distributions` or `stochastic processes`. We aim to provide easy-to-understand simulation APIs for `C++`, `Python`, `R`. You can easily merge code here into your own project.
 
 # Contant
+```text
 stochastic - distributions.py
            - visualizers.py
            - poisson_process.py
            - random_walk.py
            - weiner_process.py
 examples   - example_visualizers.py
+```
 
 # About the author
 Nathmath from DOF Studio, on Nov 11, 2024.
