@@ -1,19 +1,14 @@
+## simulatia
+## version 0.0.1
+## 
+## poisson process.py
+## DOF Studio 2024
+## Apache License Version 2.0
+
 import numpy as np
+from distributions import exponential
 
-## 1. Generate exponential random numbers
-def expnum(mu, n):
-    return np.random.exponential(mu, n)
-
-## 2. Generate Poisson random numbers
-def poisson(lmbda, n):
-    return np.random.poisson(lmbda, n)
-
-## 3. Generate uniform random numbers
-def uniform(a, b, n):
-    return np.random.uniform(a, b, n)
-
-## Simuate Poisson Process
-def pois_process(lmbda, time = 1):
+def poisson_process(lmbda, time = 1):
     '''
     Simulates a Poisson process with rate lmbda and time horizon T.
 
@@ -32,7 +27,7 @@ def pois_process(lmbda, time = 1):
     while len(intervals) == 0 or np.sum(intervals) < time:
         
         # Generate exponential random numbers
-        inter_arrival_times = expnum(1/lmbda, int(time/lmbda))
+        inter_arrival_times = exponential(1/lmbda, int(time/lmbda))
 
         # Append the intervals
         intervals.extend(inter_arrival_times)
@@ -48,17 +43,18 @@ def pois_process(lmbda, time = 1):
 
     return np.array(arrival_times), np.array(intervals)
 
+
 # Test
 if __name__ == "__main__":
     
-    # calculate the cond
-    numba = []
+    # calculate the conditional distribution of the number of arrivals within 15 minutes
+    numbaa = []
     for i in range(1000000):
-        arr, intv = pois_process(1/6, 60)
-        if len(arr) == 10:
-            arr = arr[arr <= 15]
-            numba.append(len(arr))
-    print("mean=", np.mean(numba))
-    print("std_err=", np.std(numba) / np.sqrt(len(numba)))
-    print("95%CI=", np.mean(numba) - 1.96*np.std(numba) / np.sqrt(len(numba)), np.mean(numba) + 1.96*np.std(numba) / np.sqrt(len(numba)))
+        arrivals, intervals = poisson_process(1/6, 60)
+        if len(arrivals) == 10:
+            arrivals = arrivals[arrivals <= 15]
+            numbaa.append(len(arrivals))
+    print("mean=", np.mean(numbaa))
+    print("std_err=", np.std(numbaa) / np.sqrt(len(numbaa)))
+    print("95%CI=", np.mean(numbaa) - 1.96*np.std(numbaa) / np.sqrt(len(numbaa)), np.mean(numbaa) + 1.96*np.std(numbaa) / np.sqrt(len(numbaa)))
   
